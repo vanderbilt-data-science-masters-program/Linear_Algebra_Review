@@ -23,13 +23,14 @@ This supplement is meant to instruct and clarify applications of the key concept
 # install.packages("matlib")
 # install.packages("pcaPP")
 # install.packages("devtools")
+
+library(devtools)
 # install_github("vqv/ggbiplot")
 
 library(MASS)
 library(knitr)
 library(matlib)
 library(pcaPP)
-library(devtools)
 library(ggbiplot)
 
 example.data <- mtcars
