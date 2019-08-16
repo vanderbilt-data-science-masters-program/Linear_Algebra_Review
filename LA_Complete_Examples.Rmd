@@ -1,7 +1,7 @@
 ---
-title: "Linear Algebra R Incomplete Examples"
+title: "Linear Algebra R Examples"
 date: "8/16/2019"
-author: "Your Name"
+author: "Megan Hollister"
 output:
   html_document: 
     code_folding: hide
@@ -12,6 +12,8 @@ output:
 editor_options: 
   chunk_output_type: inline
 ---
+
+### Email: [megan.c.hollister@vanderbilt.edu]()
 
 ## Description: 
 
@@ -27,6 +29,8 @@ This supplement is meant to instruct and clarify applications of the key concept
 
 library(MASS)
 library(knitr)
+library(kableExtra)
+library(tidyverse)
 library(matlib)
 library(pcaPP)
 library(devtools)
@@ -48,6 +52,12 @@ $$v=\begin{pmatrix}
 
 ```{r}
 v = c(1,7,3)
+
+# The exact same when wrapped in as.vector()
+v = as.vector(c(1,7,3))
+
+# Or can create a 1 column matrix
+v = matrix(c(1,7,3))
 ```
 
 + Create a matrix with 6 elements filling by rows. 
@@ -133,7 +143,12 @@ row2 & 1 & 5 & 7
 \end{matrix}$$
 
 ```{r}
+dimnames(A) = list( 
+   c("row1", "row2"),         # row names 
+   c("col1", "col2", "col3")) # column names 
 
+# Check the row and column labels (in list format)
+# labels(A)
 ```
 
 + Transpose a matrix. 
@@ -146,7 +161,7 @@ col3 & 3 & 7
 \end{matrix}$$
 
 ```{r}
-
+# t(A)
 ```
 
 ## b. Operations and Properties
@@ -164,7 +179,7 @@ $$5\times B=\begin{bmatrix}
 ```{r}
 k = 5
 
-
+kB = k*B
 ```
 
 + Multiply each column in matrix by different constant. 
@@ -178,7 +193,17 @@ $$\begin{bmatrix}
 \end{bmatrix}$$
 
 ```{r}
+# WRONG
+# c(0,2)*B
+# t(c(0,2))*B
+# Error: non-conformable arrays
 
+# 3 CORRECT methods
+B.scaled = B%*%diag(c(0,2))
+
+B.scaled = t(apply( B , 1 , function(x) x*c(0,2)))
+
+B.scaled = sweep( B , 2 , c(0,2),'*')
 ```
 
 + Multiply vector and matrix using matrix multiplcation. 
@@ -192,7 +217,9 @@ $$B^T*v=\begin{bmatrix}
 \end{bmatrix}$$
 
 ```{r}
+vB = t(v)%*%B
 
+Bv = t(B)%*%v
 ```
 
 + Multiply 2 matrices using matrix multiplcation. 
@@ -209,7 +236,13 @@ $$BA=\begin{bmatrix}
 \end{bmatrix}$$
 
 ```{r}
+# Using element-wise mulitplication( * ): 
+# A*B
+# Error: non-conformable arrays 
 
+AB = A%*%B #returns a 2x2 matrix
+
+BA = B%*%A #returns a 3x3 matrix
 ```
 
 + Multiply 3 matrices together.
@@ -221,7 +254,7 @@ $$BAC = \begin{bmatrix}
 \end{bmatrix}$$
 
 ```{r}
-
+BAC = B%*%A%*%C
 ```
 
 Addition:
@@ -235,7 +268,7 @@ $$C^{*} = \begin{bmatrix}
 \end{bmatrix}$$
 
 ```{r}
-
+C.centered = C-3
 ```
 
 + Add different constant to each row of a matrix. 
@@ -249,8 +282,20 @@ C_{col1}+0 & C_{col2}-5 & C_{col3}+7 \\
 \end{bmatrix}$$
 
 ```{r}
+C.hat = C + matrix(c(0,-5,7), nrow=3, ncol=3, byrow=TRUE)
 
+C.hat = t(apply( C , 1 , function(x) x+c(0,-5,7)))
+
+C.hat = sweep( C , 2 , c(0,-5,7),'+')
 ```
+
+Hands-on Example:
+
++ Before: Can it theoretically be done?
+
++ Attempt example!
+
++ After: Does R complete task or result in error?
 
 # 2. Systems of Linear Equations 
 ## a. Gaussian Elmination 
@@ -268,6 +313,14 @@ $$e=\begin{pmatrix}
 3 \\
 0 \\
 17 
+\end{pmatrix}$$
+
+
+Solution:
+$$x=\begin{pmatrix}
+1 \\
+4 \\
+-2 
 \end{pmatrix}$$
 
 ```{r}
@@ -303,12 +356,15 @@ $$v_3 = \begin{pmatrix}
 
 ```{r}
 V <- matrix(c(2, 5, 3,1, 1, 1,4,-2,0), nrow=3, byrow = FALSE)
+
+# gaussianElimination(V, verbose=TRUE, fractions=TRUE)
 ```
 
 One way to answer this question is find the solution to:
 
 $$k_1v_1+k_2v_2+k_3v_3=0$$
 
+Through gaussian elimination we see the only solution is $k_1 = k_2 = k_3 = 0$, which proves that the given vectors are linearly independent. 
 
 Solving Systems of Equations Examples
 
@@ -322,8 +378,21 @@ Solution:
 ```{r}
 A <- matrix(c(1,2,3, -1, 2, 1), 3, 2)
 b <- c(2,1,3)
+
+# Print the system of equations
+# showEqn(A,b)
+
+# Test for consistency, are the ranks equal?
+# R(A)==R(cbind(A,b))
+
+# Solve for the solution
+Solve(A,b, fractions = TRUE)
 ```
 
+From the plot we can see all 3 equations have a consistent solution. 
+```{r}
+plotEqn(A,b)
+```
 
 + Three inconsistent equations. 
 
@@ -334,8 +403,22 @@ $$3x_1 + x_2  =  6 $$
 Solution:
 ```{r}
 b.new <- c(2,1,6)
+
+# Print the system of equations
+# showEqn(A,b.new)
+
+# Test for consistency, are the ranks equal?
+# R(A)==R(cbind(A,b.new))
+
+# Solve for the solution, see 0=-3 which is FALSE
+Solve(A,b.new, fractions = TRUE)
 ```
 
+From the plot we can see that each pair of equations has a solution, but all three don't have a consistent solution.
+
+```{r}
+plotEqn(A,b.new)
+```
 
 ## c. Inverses
 
@@ -345,8 +428,25 @@ $$F=\begin{bmatrix}
 0&1&-2 \\
 \end{bmatrix}$$
 
+$$F^{-1}=\begin{bmatrix}
+\frac{1}{6}&-\frac{1}{3}&-\frac{1}{2} \\
+\frac{2}{3}&\frac{2}{3}&1 \\
+\frac{1}{3}&\frac{1}{3}&0 \\
+\end{bmatrix}$$
+
 ```{r}
 F <- matrix(c(2,-2,0,1,-1,1,0,3,-2), nrow=3)
+
+# Step-by-step process to solve for inverse
+# gaussianElimination(F,diag(1,nrow=3), verbose=TRUE, fractions=TRUE)
+```
+
+```{r}
+FI <- fractions(inv(F))
+
+FI <- fractions(Inverse(F))
+
+FI <- fractions(solve(F))
 ```
 
 Show the following hold: 
@@ -363,10 +463,21 @@ Show the following hold:
 
 ## d. Norm and Trace and  Determinant
 
+$$norm(C)=107$$
+$$det(C)=-114624$$
+
+$$tr(C)=90$$
+
 How to code:
 
 ```{r}
+# Default norm type is "one" or maximum absolute column sum
+# For other norm types see documentation
+norm.C <- norm(C)
 
+det.C <- det(C)
+
+trace.C = sum(diag(C))
 ```
 
 Some properties include:
@@ -387,10 +498,16 @@ Some properties include:
 
 ## a. The Moore Penrose Pseudoinverse
 
+$$G_C=\begin{bmatrix}
+-0.005&-0.005&0.014 \\
+-0.005&0.019&0.001 \\
+0.037&0.002&-0.011 \\
+\end{bmatrix}$$
+
 How to code:
 
 ```{r}
-
+G.C <- ginv(C)
 ```
 
 ## b. Linear Regression
@@ -400,7 +517,12 @@ This is a very simple example. You will learn a lot more in class this semester 
 Here we fit a linear model that predicts 1974 car fuel consumption, more specifically miles per gallon, using car weight. We can see in the graph that as car weight increases mpg decreases. Therefore there is a negative trend between weight and mpg in this sample. 
 
 ```{r}
+lin.model <- lm(mpg~wt,data=example.data)
 
+#summary(lin.model)
+
+plot(example.data$wt, example.data$mpg, main="Car Weight vs. Plot Fuel Consumption ",xlab="Weight", ylab="mpg")
+abline(lm(mpg~wt,data=example.data), col="red")
 ```
 
 ## c. Principal Component Analysis
@@ -409,8 +531,86 @@ Here we fit a linear model that predicts 1974 car fuel consumption, more specifi
 
 We will consider only the numeric variables for the PCA (not the categorical ones `vs` and `am`). We fit a PCA object to the scaled and centered data. Each of these 9 components explains a percentage of the total variation in the dataset. 
 
-```{r}
+"PC1 explains 63% of the total variance, which means that nearly two-thirds of the information in the dataset (9 variables) can be encapsulated by just that one Principal Component. PC2 explains 23% of the variance. So, by knowing the position of a sample in relation to just PC1 and PC2, you can get a very accurate view on where it stands in relation to other samples, as just PC1 and PC2 can explain 86% of the variance."
 
+```{r}
+mtcars.pca <- prcomp(mtcars[,c(1:7,10,11)], center = TRUE,scale. = TRUE)
+
+summary(mtcars.pca)
+```
+
+From the plot of PC1 vs. PC2 we see variables `hp`, `cyl`, and `disp` all contribute to PC1, with higher values in those variables moving the samples to the right on this plot. This lets you see how the data points relate to the axes, but it's not very informative without knowing which point corresponds to which sample or car.
+
+```{r}
+ggbiplot(mtcars.pca)
+```
+
+Label each point on the graph with the car names:
+
+```{r}
+ggbiplot(mtcars.pca, labels=rownames(mtcars))
+```
+
+In order to interpret these results we compare groups. Here we create a `mtcars.country` variables to represent the country of origin of the car. We will also circle these groups on the graph:
+
+"We see that the American cars are characterized by high values for `cyl`, `disp`, and `wt`. Japanese cars, on the other hand, are characterized by high `mpg`. European cars are somewhat in the middle and less tightly clustered than either group."
+
+```{r}
+mtcars.country <- c(rep("Japan", 3), rep("US",4), rep("Europe", 7),rep("US",3), "Europe", rep("Japan", 3), rep("US",4), rep("Europe", 3), "US", rep("Europe", 3))
+
+ggbiplot(mtcars.pca,ellipse=TRUE,  labels=rownames(mtcars), groups=mtcars.country)
+```
+
+Now lets look at PC3 vs. PC4. The trends are less distinct here but we expected that because of the low percent of explained variance from each component. 
+
+```{r}
+ggbiplot(mtcars.pca,ellipse=TRUE,choices=c(3,4),   labels=rownames(mtcars), groups=mtcars.country)
+```
+
+# Extras
+
+## a. Random Functions
+
+See code: 
+
+```{r}
+# matrix of logical variables returned
+upC <- upper.tri(C, diag=TRUE)
+lowC <- lower.tri(C)
+
+# return the values in the upper traingle
+# C[upC]
+
+# replace the values in the lower traingle with 0's
+# C[lowC] <- 0
+
+#logical variable returned
+sym.C <- is_symmetric_matrix(C) 
+```
+
+## b. Eigenvalues/Eigenvectors and Singular Value Decomposition
+
+How to code:
+
+```{r}
+eig.C <- eigen(C)
+
+C.svd <- svd(C)
+```
+
+How svd connects with generalized inverses: 
+
+```{r}
+ds <- diag(1/C.svd$d)
+u <- C.svd$u
+v <- C.svd$v
+us <- as.matrix(u)
+vs <- as.matrix(v)
+
+C.ginv <- vs %*% ds %*% t(us)
+
+# Compare to:
+# ginv(C)
 ```
 
 # Sources
