@@ -1,5 +1,5 @@
 ---
-title: "Linear Algebra R Unsolved Examples"
+title: "Linear Algebra R Incomplete Examples"
 date: "8/16/2019"
 author: "Your Name"
 output:
@@ -253,14 +253,6 @@ C_{col1}+0 & C_{col2}-5 & C_{col3}+7 \\
 ```{r}
 
 ```
-
-Hands-on Example:
-
-+ Before: Can it theoretically be done?
-
-+ Attempt example!
-
-+ After: Does R complete task or result in error?
 
 # 2. Systems of Linear Equations 
 ## a. Gaussian Elmination 
