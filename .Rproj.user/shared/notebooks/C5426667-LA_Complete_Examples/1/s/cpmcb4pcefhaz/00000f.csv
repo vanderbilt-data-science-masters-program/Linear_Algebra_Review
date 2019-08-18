@@ -1,0 +1,4 @@
+"0","# Change A to a different variable type in order to use ""mutate"" function"
+"0","A <- as.data.frame(A)"
+"0","#A <- as.matrix(A)"
+"0","A %<>% mutate(col1=col1*8)"

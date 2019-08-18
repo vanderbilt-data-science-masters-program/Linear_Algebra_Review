@@ -1,0 +1,1 @@
+"0","ggplot(data = complete_biomarker_data, aes(x = diff.Crea.base1, y = uKIM1)) + ggtitle(""Creatinine Difference vs. uKIM1"") + geom_point(aes(y = uKIM1),color=complete_biomarker_data$kdigo.ord, alpha=0.8)+labs(x = ""Creatinine Visit 1 - Baseline"", y = ""uKIM1"") "

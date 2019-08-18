@@ -1,0 +1,6 @@
+"0","D <- matrix(c(1,1,1,2,3,7,1,0,9), nrow=3, byrow = TRUE)"
+"0","e <- c(3,0,-17)"
+"0","# gaussianElimination(D,e, verbose=TRUE, fractions=TRUE)"
+"0","D <- matrix(c(1,1,3,-2), nrow=2, byrow = TRUE)"
+"0","e <- c(3,4)"
+"0","# gaussianElimination(D,e, verbose=TRUE, fractions=TRUE)"

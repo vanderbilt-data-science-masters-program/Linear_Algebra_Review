@@ -1,0 +1,5 @@
+"0","A = matrix( "
+"0","  c(2, 4, 3, 1, 5,2), # the data elements "
+"0","  nrow=2, "
+"0","  ncol=3, "
+"0","  byrow = TRUE)        # fill matrix by rows (default)"

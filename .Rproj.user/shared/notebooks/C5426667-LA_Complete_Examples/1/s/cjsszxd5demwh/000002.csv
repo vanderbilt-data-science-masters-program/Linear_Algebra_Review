@@ -1,0 +1,8 @@
+"0","# WRONG"
+"0","# c(0,2)*B"
+"0","# t(c(0,2))*B"
+"0","# Error: non-conformable arrays"
+"0","# 3 CORRECT methods"
+"0","B.scaled = B%*%diag(c(0,2))"
+"0","B.scaled = t(apply( B , 1 , function(x) x*c(0,2)))"
+"0","B.scaled = sweep( B , 2 , c(0,2),'*')"

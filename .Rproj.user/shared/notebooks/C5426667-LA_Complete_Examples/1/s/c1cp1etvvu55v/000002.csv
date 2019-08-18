@@ -1,0 +1,4 @@
+"0","eig.C <- eigen(C)"
+"0","# eig.C$values"
+"0","# eig.C$vectors"
+"0","C.svd <- svd(C)"

@@ -1,0 +1,3 @@
+"0","F <- matrix(c(2,-2,0,1,-1,1,0,3,-2), nrow=3)"
+"0","# Step-by-step process to solve for inverse"
+"0","# gaussianElimination(F,diag(1,nrow=3), verbose=TRUE, fractions=TRUE)"

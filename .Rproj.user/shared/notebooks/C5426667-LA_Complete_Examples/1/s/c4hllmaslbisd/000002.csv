@@ -1,0 +1,3 @@
+"0","I = diag(1,      # The element(s) on the diagonal of matrix"
+"0","         nrow=3) # number of rows "
+"0","                 # (assumes same number of columns or square)"

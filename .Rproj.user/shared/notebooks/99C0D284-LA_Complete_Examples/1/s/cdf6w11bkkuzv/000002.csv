@@ -1,0 +1,5 @@
+"0","# Using element-wise mulitplication( * ): "
+"0","# A*B"
+"0","# Error: non-conformable arrays "
+"0","AB = A%*%B #returns a 2x2 matrix"
+"0","BA = B%*%A #returns a 3x3 matrix"

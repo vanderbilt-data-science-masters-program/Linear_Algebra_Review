@@ -1,0 +1,4 @@
+"0","C = matrix( "
+"0","  c(25, 4, 31, 1, 52, 7, 81, 22, 13), # the data elements "
+"0","  nrow=3,              # number of rows "
+"0","  byrow = TRUE)        # fill matrix by rows (default)"

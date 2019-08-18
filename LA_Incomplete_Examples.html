@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Your Name" />
+<meta name="author" content="Megan Hollister" />
 
 
 <title>Linear Algebra R Incomplete Examples</title>
@@ -1636,7 +1636,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Linear Algebra R Incomplete Examples</h1>
-<h4 class="author">Your Name</h4>
+<h4 class="author">Megan Hollister</h4>
 <h4 class="date">8/16/2019</h4>
 
 </div>
@@ -1645,22 +1645,6 @@ div.tocify {
 <div id="description" class="section level2">
 <h2>Description:</h2>
 <p>This supplement is meant to instruct and clarify applications of the key concepts of linear algebra.</p>
-<pre class="r"><code># install.packages(&quot;MASS&quot;)
-# install.packages(&quot;knitr&quot;)
-# install.packages(&quot;matlib&quot;)
-# install.packages(&quot;pcaPP&quot;)
-# install.packages(&quot;devtools&quot;)
-
-library(devtools)
-# install_github(&quot;vqv/ggbiplot&quot;)
-
-library(MASS)
-library(knitr)
-library(matlib)
-library(pcaPP)
-library(ggbiplot)
-
-example.data &lt;- mtcars</code></pre>
 </div>
 <div id="introduction-to-matricesvectors" class="section level1">
 <h1>1. Introduction to Matrices/Vectors</h1>
@@ -1683,9 +1667,9 @@ example.data &lt;- mtcars</code></pre>
 1 &amp; 5 &amp; 7 
 \end{bmatrix}\]</span></p>
 <pre class="r"><code>A = matrix( 
-  c(2, 4, 3, 1, 5, 7), # the data elements 
-  nrow=2,              # number of rows 
-  ncol=3,              # number of columns 
+  c(2, 4, 3, 1, 5,2), # the data elements 
+  nrow=2, 
+  ncol=3, 
   byrow = TRUE)        # fill matrix by rows (default)</code></pre>
 <ul>
 <li>Create a matrix with the same 6 elements filling by columns.</li>
@@ -1722,7 +1706,9 @@ example.data &lt;- mtcars</code></pre>
 \end{bmatrix}\]</span></p>
 <pre class="r"><code>I = diag(1,      # The element(s) on the diagonal of matrix
          nrow=3) # number of rows 
-                 # (assumes same number of columns or square)</code></pre>
+                 # (assumes same number of columns or square)
+
+#matrix(c(1,0), nrow=2)</code></pre>
 <ul>
 <li>Create a unit matrix with 9 elements.</li>
 </ul>
@@ -1742,6 +1728,11 @@ example.data &lt;- mtcars</code></pre>
 row1 &amp; 2 &amp; 4 &amp; 3 \\
 row2 &amp; 1 &amp; 5 &amp; 7 
 \end{matrix}\]</span></p>
+<pre class="r"><code>dimnames(A) = list( 
+   c(&quot;row1&quot;, &quot;row2&quot;),         # row names 
+   c(&quot;col1&quot;, &quot;col2&quot;, &quot;col3&quot;))
+
+names(v)&lt;- c(&quot;v1&quot;,&quot;v2&quot;,&quot;v3&quot;)</code></pre>
 <ul>
 <li>Transpose a matrix.</li>
 </ul>
@@ -1751,6 +1742,11 @@ col1 &amp; 2 &amp; 1 \\
 col2 &amp; 4 &amp; 5 \\
 col3 &amp; 3 &amp; 7  
 \end{matrix}\]</span></p>
+<pre class="r"><code>t(A)</code></pre>
+<pre><code>##      row1 row2
+## col1    2    1
+## col2    4    5
+## col3    3    2</code></pre>
 </div>
 <div id="b.-operations-and-properties" class="section level2">
 <h2>b. Operations and Properties</h2>
@@ -1763,7 +1759,9 @@ col3 &amp; 3 &amp; 7
 20&amp;25 \\
 15&amp;35 \\
 \end{bmatrix}\]</span></p>
-<pre class="r"><code>k = 5</code></pre>
+<pre class="r"><code>k = 5
+
+kB = 5*B</code></pre>
 <ul>
 <li>Multiply each column in matrix by different constant.</li>
 </ul>
@@ -1774,6 +1772,7 @@ col3 &amp; 3 &amp; 7
 0&amp;10 \\
 0&amp;14 \\
 \end{bmatrix}\]</span></p>
+<pre class="r"><code>#t(c(0,2)*t(B))</code></pre>
 <ul>
 <li>Multiply vector and matrix using matrix multiplcation.</li>
 </ul>
@@ -1783,6 +1782,13 @@ col3 &amp; 3 &amp; 7
 39 \\
 57 \\
 \end{bmatrix}\]</span></p>
+<pre class="r"><code>t(v)%*%B</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   39   57</code></pre>
+<pre class="r"><code>t(B)%*%v</code></pre>
+<pre><code>##      [,1]
+## [1,]   39
+## [2,]   57</code></pre>
 <ul>
 <li>Multiply 2 matrices using matrix multiplcation.</li>
 </ul>
@@ -1795,6 +1801,29 @@ col3 &amp; 3 &amp; 7
 13&amp;41&amp;47 \\
 13&amp;47&amp;58 \\
 \end{bmatrix}\]</span></p>
+<pre class="r"><code>A%*%B</code></pre>
+<pre><code>##      [,1] [,2]
+## row1   29   43
+## row2   28   40</code></pre>
+<pre class="r"><code>t(B)%*%C</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]  297  282  129
+## [2,]  597  418  157</code></pre>
+<pre class="r"><code>C*C</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]  625   16  961
+## [2,]    1 2704   49
+## [3,] 6561  484  169</code></pre>
+<pre class="r"><code>C%*%C</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,] 3140  990 1206
+## [2,]  644 2862  486
+## [3,] 3100 1754 2834</code></pre>
+<pre class="r"><code>B%*%A</code></pre>
+<pre><code>##      col1 col2 col3
+## [1,]    5   13    8
+## [2,]   13   41   22
+## [3,]   13   47   23</code></pre>
 <ul>
 <li>Multiply 3 matrices together.</li>
 </ul>
@@ -1803,6 +1832,11 @@ col3 &amp; 3 &amp; 7
 4173&amp;3218&amp;1301 \\
 5070&amp;3772&amp;1486 \\
 \end{bmatrix}\]</span></p>
+<pre class="r"><code>B%*%A%*%C</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]  786  872  350
+## [2,] 2148 2668  976
+## [3,] 2235 3002 1031</code></pre>
 <p>Addition:</p>
 <ul>
 <li>Add constant (-3) to every element in a matrix (C).</li>
@@ -1812,6 +1846,11 @@ col3 &amp; 3 &amp; 7
 -2&amp;49&amp;4 \\
 78&amp;19&amp;10 \\
 \end{bmatrix}\]</span></p>
+<pre class="r"><code>C+72</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]   97   76  103
+## [2,]   73  124   79
+## [3,]  153   94   85</code></pre>
 <ul>
 <li>Add different constant to each row of a matrix.</li>
 </ul>

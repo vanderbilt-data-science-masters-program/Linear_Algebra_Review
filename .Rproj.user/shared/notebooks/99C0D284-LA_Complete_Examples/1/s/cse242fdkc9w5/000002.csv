@@ -1,0 +1,5 @@
+"0","dimnames(A) = list( "
+"0","   c(""row1"", ""row2""),         # row names "
+"0","   c(""col1"", ""col2"", ""col3"")) # column names "
+"0","# Check the row and column labels (in list format)"
+"0","# labels(A)"

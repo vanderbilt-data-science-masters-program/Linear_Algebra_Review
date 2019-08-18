@@ -1,0 +1,3 @@
+"0","FI <- fractions(inv(F))"
+"0","FI <- fractions(Inverse(F))"
+"0","FI <- fractions(solve(F))"
