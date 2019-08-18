@@ -670,8 +670,9 @@ sum(round(g.pred,8)==round(Y.pred,8))/n
 
 ```{r}
 plot(example.data$wt,example.data$mpg,pch=20,col="black", main="Model 1 vs. Model 2 Predictions", xlab="Weight", ylab="mpg")
-lines(example.data$wt,Y.pred,lty=1,lwd=8,col="blue")
-lines(example.data$wt,g.pred,lty=1,lwd=2,col="green")
+lines(example.data$wt,g.pred,lty=1,lwd=10,col="blue")
+lines(example.data$wt,Y.pred,lty=1,lwd=3,col="red")
+legend(4.5,30,c("Model 1", "Model 2"), c("red","blue"))
 ```
 
 ## d. Principal Component Analysis
